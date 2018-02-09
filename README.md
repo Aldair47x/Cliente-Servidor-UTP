@@ -1,2 +1,3 @@
 <h3>Arquitectura cliente/servidor - Universidad Tecnológica de Pereira (UTP)</h3>
-Workshops, HW, Projects...
+
+<p>Workshops, HW, Projects...</p>
