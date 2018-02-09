@@ -1,5 +1,6 @@
 import zmq
 import sys
+import os
 
 def loadFiles(path):
     files = {}
@@ -12,7 +13,7 @@ def loadFiles(path):
 
 def main():
 
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 3:
         print("Error")
         exit()
 

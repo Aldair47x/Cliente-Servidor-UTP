@@ -2,7 +2,7 @@ import zmq
 import sys
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Error")
         exit()
     ip = sys.argv[1]
