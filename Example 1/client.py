@@ -17,6 +17,17 @@ def main():
         s.send_json({"op":"list"})
         files = s.recv_json()
         print(files)
+    elif operation == "download":
+        name = input()
+        s.send_json({"op":"download", "file":name})
+        parts = s.recv_json()
+        print(parts["parts"])
+        for i in range(parts["parts"]):
+            s.send_json({"op":"download", "file":name, "part":"{}".format(i)})
+            file = s.recv()
+            print(file)
+            with open("descarga.mp3" , "ab") as output:
+                output.write(file)
     else:
         print("Error")
 
