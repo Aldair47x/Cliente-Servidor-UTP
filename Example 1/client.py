@@ -25,8 +25,7 @@ def main():
         for i in range(parts["parts"]):
             s.send_json({"op":"download", "file":name, "part":"{}".format(i)})
             file = s.recv()
-            print(file)
-            with open("descarga.mp3" , "ab") as output:
+            with open("download {}".format(name) , "ab") as output:
                 output.write(file)
     else:
         print("Error")

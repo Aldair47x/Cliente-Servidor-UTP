@@ -42,11 +42,11 @@ def main():
                         while data:
                             data = input.read(size)
                             parts.append(data)
-                    print(filename)
                     filesparts[filename] = parts
-                    s.send_json({"parts":len(parts)})
                 else:
                     s.send_string("Marranito")
+            if not "part" in msg:
+                s.send_json({"parts": len(filesparts[filename])})
             else:
                 s.send(filesparts[filename][int(msg["part"])])
         else:
