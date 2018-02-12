@@ -22,7 +22,7 @@ def main():
         s.send_json({"op":"download", "file":name})
         parts = s.recv_json()
         print(parts["parts"])
-        for i in range(parts["parts"]):
+        for i in range(int(parts["parts"])):
             s.send_json({"op":"download", "file":name, "part":"{}".format(i)})
             file = s.recv()
             with open("download {}".format(name) , "ab") as output:
