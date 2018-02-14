@@ -8,7 +8,7 @@
 
 <h2>Time testing </h2>
 
-<p>To test the speed we used the time library for `python 3.6` and we got the following outputs in differents size transfers: </p>
+<p>To test the speed we used the time library for Python 3.6 and we got the following outputs in differents size transfers: </p>
 
 <h3>The size of the test file to transfer is 6,6 mb </h3>
 	<ul>1 mb =  0.04123806953430176 seconds! </ul>
