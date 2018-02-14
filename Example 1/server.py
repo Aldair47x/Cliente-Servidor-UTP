@@ -31,7 +31,7 @@ def main():
         if msg["op"] == "list":
             s.send_json({"files": list(files.keys())})
         elif msg["op"] == "download":
-            size = 1024*1024
+            size = 1024*1024*32
             filename = msg["file"]
             if filename in files:
                 if not "part" in msg:
@@ -39,7 +39,6 @@ def main():
                     s.send_json({"parts": math.ceil(file[6]/size)})
                 else:
                     with open(directory + "/" +filename, "rb") as input:
-                        print(msg["part"])
                         input.seek(size * int(msg["part"]))
                         data = input.read(size)
                     s.send(data)

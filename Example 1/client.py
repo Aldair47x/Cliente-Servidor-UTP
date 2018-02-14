@@ -1,5 +1,6 @@
 import zmq
 import sys
+import time
 
 def main():
     if len(sys.argv) != 4:
@@ -18,15 +19,17 @@ def main():
         files = s.recv_json()
         print(files)
     elif operation == "download":
-        name = input()
+        name = input("Name of song: ")
         s.send_json({"op":"download", "file":name})
         parts = s.recv_json()
-        print(parts["parts"])
+        start = time.time()
         for i in range(int(parts["parts"])):
             s.send_json({"op":"download", "file":name, "part":"{}".format(i)})
             file = s.recv()
             with open("download {}".format(name) , "ab") as output:
                 output.write(file)
+        end = time.time()
+        print("Download Success in {} seconds!".format(end - start))
     else:
         print("Error")
 
