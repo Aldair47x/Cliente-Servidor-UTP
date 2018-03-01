@@ -1,6 +1,5 @@
 import zmq
 import sys
-import time
 import socket
 import pyaudio
 import threading
@@ -29,10 +28,9 @@ def main():
 	port = sys.argv[2]
 
 	FORMAT = pyaudio.paInt16
-	CHANNELS = 1
+	CHANNELS = 2
 	RATE = 44100
 	CHUNK = 1024
-	RECORD_SECONDS = 0.025
 	audio = pyaudio.PyAudio()
 	stream_rep = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
 	stream_recv = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, output=True)
