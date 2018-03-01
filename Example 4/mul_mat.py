@@ -8,6 +8,11 @@ def main():
     matriz = np.ones((n,n))
     res = np.zeros((n,n))
 
+    #for i in range(n):
+    #    for j in range(n):
+    #        matriz[i][j] = random.randint(1,5)
+    #print(matriz)
+
     start = time.time()
     for i in range(n):
         for j in range(n):
@@ -15,9 +20,11 @@ def main():
             for k in range(n):
                 suma += matriz[i,k] * matriz[k, j]
             res[i][j] = suma
-
     end = time.time()
     print(end-start)
+
+    #print(res)
+    
     with open("times", "a") as output:
         output.write('{} : {}\n'.format(n, end-start))
 

@@ -15,12 +15,20 @@ def main():
     matriz = np.ones((n,n))
     res = np.zeros((n,n))
 
+    #for i in range(n):
+    #    for j in range(n):
+    #        matriz[i][j] = random.randint(1,5)
+    #print(matriz)
+
     start = time.time()
     for i in range(n):
         for j in range(n):
             threading.Thread(target=cell, args=(res, matriz, i, j, n)).start()
     end = time.time()
     print(end-start)
+
+    #print(res)
+
     with open("times thread", "a") as output:
         output.write('{} : {}\n'.format(n, end-start))
 
