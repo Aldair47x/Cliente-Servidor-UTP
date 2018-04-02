@@ -23,7 +23,39 @@ First line: A B C D E
 "E" indicates if contains a name for each data point. The value for "E" is 0 (not contains) or 1 (contains).<br />
 The next "A" lines contains "B" attributes and the data point name (if "E" variable is 1).<br />
 
-Example of dataset:
+<h3>Example that contains data point name (Netlix movies's name): </h3>
+
+
+105 2 7 100 1 <br />
+1488844 3 Movie1 <br />
+822109 5 Movie1 <br />
+885013 4 Movie1 <br />
+30878 4 Movie1 <br />
+823519 3 Movie1 <br />
+893988 3 Movie1 <br />
+124105 4 Movie1 <br />
+(...)<br />
+
+"1488844" is an anonymous user encrypted <br />
+"3" The integral rating of the movie (1 to 5) <br />
+"Movie1" The number of the movie <br />
+
+
+<h2>Quick analisis of the data </h2>
+
+After compiling the algoritm with the `NetflixDataSet.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+
+<h3>K = 7</h3>
+<p>Cluster 1 values: 2.49372e+06 - 2.92857 </p>
+<p>Cluster 2 values: 602683 - 3.0625 </p>
+<p>Cluster 3 values: 149175 - 3.25 </p>
+<p>Cluster 4 values: 1.40995e+06 - 2.8 </p>
+<p>Cluster 5 values: 1.76299e+06 - 3.53333 </p>
+<p>Cluster 6 values: 2.07667e+06 - 3.78571 </p>
+<p>Cluster 7 values: 955751 - 3.36842 </p>
+
+
+<h3>Example of dataset: </h3>
 
 7 2 2 100 0<br />
 1.0 1.0<br />
@@ -41,14 +73,7 @@ Example of dataset:
 0 indicates that not contains data point name.<br />
 The next 7 lines contains 2 attributes each.<br />
 
-Example that contains data point name (iris-data):
 
-150 4 3 100 1<br />
-5.1 3.5 1.4 0.2 Iris-setosa<br />
-4.9 3.0 1.4 0.2 Iris-setosa<br />
-4.7 3.2 1.3 0.2 Iris-setosa<br />
-4.6 3.1 1.5 0.2 Iris-setosa<br />
-(...)<br />
 
 The euclidean distance was used for to calculate the distance of each data point for the centroid of cluster.
 
@@ -65,4 +90,7 @@ The algorithm stops by maximum number of iterations or if no data point exchange
 
 This algotihm is based on the next repository and all rights are reserved to him
 https://github.com/marcoscastro/kmeans
+
+
+
 
