@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
+#include <omp.h>
+
 
 using namespace std;
 
@@ -81,9 +83,11 @@ public:
 
 		int total_values = point.getTotalValues();
 
+
 		for(int i = 0; i < total_values; i++)
 			central_values.push_back(point.getValue(i));
 		points.push_back(point);
+		
 	}
 
 	void addPoint(Point point)
@@ -138,43 +142,43 @@ private:
     int K; // number of clusters
 	long int total_values, total_points, max_iterations;
 	vector<Cluster> clusters;
-
 	// return ID of nearest center (uses euclidean distance)
-	int getIDNearestCenter(Point point)
-	{
-		long double sum = 0.0, min_dist;
-		long int id_cluster_center = 0;
-
-		for(long int i = 0; i < total_values; i++)
+		int getIDNearestCenter(Point point)
 		{
-			sum += pow(clusters[0].getCentralValue(i) -
-					   point.getValue(i), 2.0);
-		}
+			long double sum = 0.0, min_dist;
+			long int id_cluster_center = 0;
 
-		min_dist = sqrt(sum);
-
-		for(long int i = 1; i < K; i++)
-		{
-			long double dist;
-			sum = 0.0;
-
-			for(long int j = 0; j < total_values; j++)
+			for(long int i = 0; i < total_values; i++)
 			{
-				sum += pow(clusters[i].getCentralValue(j) -
-						   point.getValue(j), 2.0);
+				sum += pow(clusters[0].getCentralValue(i) -
+						point.getValue(i), 2.0);
 			}
 
-			dist = sqrt(sum);
+			min_dist = sqrt(sum);
 
-			if(dist < min_dist)
+			for(long int i = 1; i < K; i++)
 			{
-				min_dist = dist;
-				id_cluster_center = i;
-			}
-		}
+				long double dist;
+				sum = 0.0;
 
-		return id_cluster_center;
-	}
+				for(long int j = 0; j < total_values; j++)
+				{
+					sum += pow(clusters[i].getCentralValue(j) -
+							point.getValue(j), 2.0);
+				}
+
+				dist = sqrt(sum);
+
+				if(dist < min_dist)
+				{
+					min_dist = dist;
+					id_cluster_center = i;
+				}
+			}
+
+			return id_cluster_center;
+		}
+	
 
 public:
 	KMeans(long int K, long int total_points, long int total_values, long int max_iterations)
@@ -244,7 +248,9 @@ public:
 
 					if(total_points_cluster > 0)
 					{
-						for(long int p = 0; p < total_points_cluster; p++)
+						//Se paraleliza la forma de calcular para cada cluster la media
+						#pragma omp for schedule(static,4)
+						for(int p = 0; p < total_points_cluster; p++)
 							sum += clusters[i].getPoint(p).getValue(j);
 						clusters[i].setCentralValue(j, sum / total_points_cluster);
 					}
@@ -294,23 +300,26 @@ int main(int argc, char *argv[])
 {
 	srand (time(NULL));
 
-	long int total_points, total_values, K, max_iterations, has_name;
+	int total_points, total_values, K, max_iterations, has_name;
 
 	cin >> total_points >> total_values >> K >> max_iterations >> has_name;
 
 	vector<Point> points;
 	string point_name;
 
+	
 	for(long int i = 0; i < total_points; i++)
 	{
 		vector<long double> values;
-
-		for(long int j = 0; j < total_values; j++)
-		{
-			long double value;
-			cin >> value;
-			values.push_back(value);
-		}
+		#pragma omp for schedule(static,4)
+			for(int j = 0; j < total_values; j++)
+			{
+				long double value;
+				cin >> value;
+				values.push_back(value);
+			}
+		
+		
 
 		if(has_name)
 		{
@@ -324,6 +333,7 @@ int main(int argc, char *argv[])
 			points.push_back(p);
 		}
 	}
+
 
 	KMeans kmeans(K, total_points, total_values, max_iterations);
 	kmeans.run(points);
