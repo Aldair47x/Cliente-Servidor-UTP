@@ -15,12 +15,12 @@ class Point
 {
 private:
 	long int id_point, id_cluster;
-	vector<long double> values;
+	vector<unsigned long long> values;
 	long int total_values;
 	string name;
 
 public:
-	Point(long int id_point, vector<long double>& values, string name = "")
+	Point(long int id_point, vector<unsigned long long>& values, string name = "")
 	{
 		this->id_point = id_point;
 		total_values = values.size();
@@ -47,7 +47,7 @@ public:
 		return id_cluster;
 	}
 
-	long double getValue(long int index)
+	unsigned long long getValue(long int index)
 	{
 		return values[index];
 	}
@@ -72,7 +72,7 @@ class Cluster
 {
 private:
 	long int id_cluster;
-	vector<long double> central_values;
+	vector<unsigned long long> central_values;
 	vector<Point> points;
 
 public:
@@ -108,7 +108,7 @@ public:
 		return false;
 	}
 
-	long double getCentralValue(long int index)
+	unsigned long long getCentralValue(long int index)
 	{
 		return central_values[index];
 	}
@@ -193,7 +193,7 @@ public:
 			return;
 
 		vector<long int> prohibited_indexes;
-
+		unsigned long long sumaError = 0.0;
 		// choose K distinct values for the centers of the clusters
 		for(int i = 0; i < K; i++)
 		{
@@ -218,7 +218,6 @@ public:
 		while(true)
 		{
 			bool done = true;
-
 			// associates each point to the nearest center
 			for(int i = 0; i < total_points; i++)
 			{
@@ -237,17 +236,30 @@ public:
 			}
 
 			// recalculating the center of each cluster
+			
 			for(int i = 0; i < K; i++)
-			{
+			{	
+				unsigned long long MeanE;
+
 				for(int j = 0; j < total_values; j++)
 				{
 					long int total_points_cluster = clusters[i].getTotalPoints();
-					long double sum = 0.0;
+					unsigned long long sum = 0.0;
 
 					if(total_points_cluster > 0)
 					{
+						for(int p = 0; p < total_points_cluster; p++){
+							sum += clusters[i].getPoint(p).getValue(j); 
+						}
+
+						MeanE = (sum/total_points_cluster);
+						
 						for(int p = 0; p < total_points_cluster; p++)
-							sum += clusters[i].getPoint(p).getValue(j);
+						{
+							sumaError += pow((clusters[i].getPoint(p).getValue(j) - MeanE),2);
+						}
+
+							
 						clusters[i].setCentralValue(j, sum / total_points_cluster);
 					}
 				}
@@ -256,6 +268,9 @@ public:
 			if(done == true || iter >= max_iterations)
 			{
 				cout << "Break in iteration " << iter << "\n\n";
+				cout << "\n";
+
+				cout << "Square error mean: "<< sumaError << "\n\n";
 				break;
 			}
 
@@ -287,6 +302,8 @@ public:
 			for(int j = 0; j < total_values; j++)
 				cout << clusters[i].getCentralValue(j) << " ";
 
+			
+
 			cout << "\n\n";
 		}
 	}
@@ -306,7 +323,7 @@ int main(int argc, char *argv[])
 
 	for(int i = 0; i < total_points; i++)
 	{
-		vector<long double> values;
+		vector<unsigned long long> values;
 
 		for(int j = 0; j < total_values; j++)
 		{
