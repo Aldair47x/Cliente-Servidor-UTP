@@ -1,12 +1,13 @@
 // Implementation of the KMeans Algorithm
 // reference: http://mnemstudio.org/clustering-k-means-example-1.htm
-
+#define TIMER_USES_MICROSECONDS 1
 #include <iostream>
 #include <vector>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
+#include "timer.hh"
 
 using namespace std;
 
@@ -24,7 +25,7 @@ public:
 		this->id_point = id_point;
 		total_values = values.size();
 
-		for(long int i = 0; i < total_values; i++)
+		for(int i = 0; i < total_values; i++)
 			this->values.push_back(values[i]);
 
 		this->name = name;
@@ -81,7 +82,7 @@ public:
 
 		long int total_values = point.getTotalValues();
 
-		for(long int i = 0; i < total_values; i++)
+		for(int i = 0; i < total_values; i++)
 			central_values.push_back(point.getValue(i));
 
 		points.push_back(point);
@@ -96,7 +97,7 @@ public:
 	{
 		long int total_points = points.size();
 
-		for(long int i = 0; i < total_points; i++)
+		for(int i = 0; i < total_points; i++)
 		{
 			if(points[i].getID() == id_point)
 			{
@@ -146,7 +147,7 @@ private:
 		long double sum = 0.0, min_dist;
 		long int id_cluster_center = 0;
 
-		for(long int i = 0; i < total_values; i++)
+		for(int i = 0; i < total_values; i++)
 		{
 			sum += pow(clusters[0].getCentralValue(i) -
 					   point.getValue(i), 2.0);
@@ -154,12 +155,12 @@ private:
 
 		min_dist = sqrt(sum);
 
-		for(long int i = 1; i < K; i++)
+		for(int i = 1; i < K; i++)
 		{
 			long double dist;
 			sum = 0.0;
 
-			for(long int j = 0; j < total_values; j++)
+			for(int j = 0; j < total_values; j++)
 			{
 				sum += pow(clusters[i].getCentralValue(j) -
 						   point.getValue(j), 2.0);
@@ -194,7 +195,7 @@ public:
 		vector<long int> prohibited_indexes;
 
 		// choose K distinct values for the centers of the clusters
-		for(long int i = 0; i < K; i++)
+		for(int i = 0; i < K; i++)
 		{
 			while(true)
 			{
@@ -219,7 +220,7 @@ public:
 			bool done = true;
 
 			// associates each point to the nearest center
-			for(long int i = 0; i < total_points; i++)
+			for(int i = 0; i < total_points; i++)
 			{
 				long int id_old_cluster = points[i].getCluster();
 				long int id_nearest_center = getIDNearestCenter(points[i]);
@@ -236,16 +237,16 @@ public:
 			}
 
 			// recalculating the center of each cluster
-			for(long int i = 0; i < K; i++)
+			for(int i = 0; i < K; i++)
 			{
-				for(long int j = 0; j < total_values; j++)
+				for(int j = 0; j < total_values; j++)
 				{
 					long int total_points_cluster = clusters[i].getTotalPoints();
 					long double sum = 0.0;
 
 					if(total_points_cluster > 0)
 					{
-						for(long int p = 0; p < total_points_cluster; p++)
+						for(int p = 0; p < total_points_cluster; p++)
 							sum += clusters[i].getPoint(p).getValue(j);
 						clusters[i].setCentralValue(j, sum / total_points_cluster);
 					}
@@ -262,15 +263,15 @@ public:
 		}
 
 		// shows elements of clusters
-		for(long int i = 0; i < K; i++)
+		for(int i = 0; i < K; i++)
 		{
 			long int total_points_cluster =  clusters[i].getTotalPoints();
 
 			cout << "Cluster " << clusters[i].getID() + 1 << endl;
-			for(long int j = 0; j < total_points_cluster; j++)
+			for(int j = 0; j < total_points_cluster; j++)
 			{
 				cout << "Point " << clusters[i].getPoint(j).getID() + 1 << ": ";
-				for(long int p = 0; p < total_values; p++)
+				for(int p = 0; p < total_values; p++)
 					cout << clusters[i].getPoint(j).getValue(p) << " ";
 
 				string point_name = clusters[i].getPoint(j).getName();
@@ -283,7 +284,7 @@ public:
 
 			cout << "Cluster values: ";
 
-			for(long int j = 0; j < total_values; j++)
+			for(int j = 0; j < total_values; j++)
 				cout << clusters[i].getCentralValue(j) << " ";
 
 			cout << "\n\n";
@@ -294,6 +295,7 @@ public:
 int main(int argc, char *argv[])
 {
 	srand (time(NULL));
+	Timer t1;
 
 	long int total_points, total_values, K, max_iterations, has_name;
 
@@ -302,11 +304,11 @@ int main(int argc, char *argv[])
 	vector<Point> points;
 	string point_name;
 
-	for(long int i = 0; i < total_points; i++)
+	for(int i = 0; i < total_points; i++)
 	{
 		vector<long double> values;
 
-		for(long int j = 0; j < total_values; j++)
+		for(int j = 0; j < total_values; j++)
 		{
 			long double value;
 			cin >> value;
@@ -328,6 +330,9 @@ int main(int argc, char *argv[])
 
 	KMeans kmeans(K, total_points, total_values, max_iterations);
 	kmeans.run(points);
+
+	long long t1time = t1.elapsed();
+	cout << "Secuencial Kmeans"<<" "<< t1time <<endl;
 
 	return 0;
 }

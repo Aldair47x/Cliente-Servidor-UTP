@@ -1,6 +1,7 @@
 // Implementation of the KMeans Algorithm
 // reference: http://mnemstudio.org/clustering-k-means-example-1.htm
 
+#define TIMER_USES_MICROSECONDS 1
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -8,7 +9,7 @@
 #include <time.h>
 #include <algorithm>
 #include <omp.h>
-
+#include "timer.hh"
 
 using namespace std;
 
@@ -249,7 +250,7 @@ public:
 					if(total_points_cluster > 0)
 					{
 						//Se paraleliza la forma de calcular para cada cluster la media
-						#pragma omp for schedule(static,4)
+						#pragma omp for schedule(static,2)
 						for(int p = 0; p < total_points_cluster; p++)
 							sum += clusters[i].getPoint(p).getValue(j);
 						clusters[i].setCentralValue(j, sum / total_points_cluster);
@@ -299,6 +300,8 @@ public:
 int main(int argc, char *argv[])
 {
 	srand (time(NULL));
+	Timer t1;
+	
 
 	int total_points, total_values, K, max_iterations, has_name;
 
@@ -311,7 +314,7 @@ int main(int argc, char *argv[])
 	for(long int i = 0; i < total_points; i++)
 	{
 		vector<long double> values;
-		#pragma omp for schedule(static,4)
+		#pragma omp for schedule(static,2)
 			for(int j = 0; j < total_values; j++)
 			{
 				long double value;
@@ -337,6 +340,9 @@ int main(int argc, char *argv[])
 
 	KMeans kmeans(K, total_points, total_values, max_iterations);
 	kmeans.run(points);
+
+	long long t1time = t1.elapsed();
+	cout << "Parallel Kmeans"<<" "<< t1time <<endl;
 
 	return 0;
 }
