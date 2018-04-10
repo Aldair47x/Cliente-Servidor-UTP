@@ -242,7 +242,7 @@ public:
 			
 			for(int i = 0; i < K; i++)
 			{	
-				unsigned long long MeanE;
+
 
 				for(int j = 0; j < total_values; j++)
 				{
@@ -255,11 +255,11 @@ public:
 							sum += clusters[i].getPoint(p).getValue(j); 
 						}
 
-						MeanE = (sum/total_points_cluster);
+						
 						
 						for(int p = 0; p < total_points_cluster; p++)
 						{
-							sumaError += pow((clusters[i].getPoint(p).getValue(j) - MeanE),2);
+							sumaError += clusters[i].getPoint(p).getValue(j) - (sum / total_points_cluster);
 						}
 
 							
@@ -317,6 +317,8 @@ int main(int argc, char *argv[])
 	srand (time(NULL));
 	Timer t1;
 	long int total_points, total_values, K, max_iterations, has_name;
+
+	/*
 	ifstream filein("datasets/NetflixDataSet1.txt");
 	string line;
 	getline(filein, line);
@@ -331,8 +333,9 @@ int main(int argc, char *argv[])
 		if(i==3) iss >> max_iterations;
 		if(i==4) iss >> has_name;
     }
+	*/
 
-	cout<<total_points<<total_values<<K<<max_iterations<<has_name<<endl;
+	cin >> total_points >> total_values >> K >> max_iterations >> has_name;
 
 	vector<Point> points;
 	string point_name;
