@@ -8,6 +8,9 @@
 #include <time.h>
 #include <algorithm>
 #include "timer.hh"
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -313,10 +316,23 @@ int main(int argc, char *argv[])
 {
 	srand (time(NULL));
 	Timer t1;
-
 	long int total_points, total_values, K, max_iterations, has_name;
+	ifstream filein("datasets/NetflixDataSet1.txt");
+	string line;
+	getline(filein, line);
+	cout<<line<<endl;
+	istringstream iss(line);
+	string subs;
+	for(int i=0;i<5;i++)
+    {
+        if(i==0) iss >> total_points;
+		if(i==1) iss >> total_values;
+		if(i==2) iss >> K;
+		if(i==3) iss >> max_iterations;
+		if(i==4) iss >> has_name;
+    }
 
-	cin >> total_points >> total_values >> K >> max_iterations >> has_name;
+	cout<<total_points<<total_values<<K<<max_iterations<<has_name<<endl;
 
 	vector<Point> points;
 	string point_name;
