@@ -43,16 +43,19 @@ The next "A" lines contains "B" attributes and the data point name (if "E" varia
 
 <h2>Quick analisis of the data </h2>
 
-After compiling the algoritm with the `NetflixDataSet.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+After compiling the `Kmeans sequencial` with the `NetflixDataSet1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
 
-<h3>K = 7</h3>
-<p>Cluster 1 values: 2.49372e+06 - 2.92857 </p>
-<p>Cluster 2 values: 602683 - 3.0625 </p>
-<p>Cluster 3 values: 149175 - 3.25 </p>
-<p>Cluster 4 values: 1.40995e+06 - 2.8 </p>
-<p>Cluster 5 values: 1.76299e+06 - 3.53333 </p>
-<p>Cluster 6 values: 2.07667e+06 - 3.78571 </p>
-<p>Cluster 7 values: 955751 - 3.36842 </p>
+<h3>K = 7 && 1000 iterations</h3>
+<p>Cluster 1 values: 1311267 3 (#points 43)</p>
+<p>Cluster 2 values: 1366592 3 (#points 57) </p>
+<p>Cluster 3 values: 1356354 4 (# points 1)</p>
+<p>Cluster 4 values: 1387662 1 (# points 1) </p>
+<p>Cluster 5 values: 1521836 1 (# points 1) </p>
+<p>Cluster 6 values: 1479828 2 (# points 1)</p>
+<p>Cluster 7 values: 1359575 2 (# points 1) </p>
+<p>Totail of points 105</p>
+<p>Square error mean: 76550</p>
+<p>Break in iteration 1000</p>
 
 
 <h3>Example of dataset: </h3>

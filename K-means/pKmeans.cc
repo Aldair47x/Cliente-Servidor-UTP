@@ -1,28 +1,30 @@
-// Implementation of the KMeans Algorithm
+// Implementation of the KMeans Algorithm in parallel
 // reference: http://mnemstudio.org/clustering-k-means-example-1.htm
-
 #define TIMER_USES_MICROSECONDS 1
 #include <iostream>
+#include <omp.h>
 #include <vector>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
-#include <omp.h>
 #include "timer.hh"
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
 class Point
 {
 private:
-	int id_point, id_cluster;
-	vector<long double> values;
-	int total_values;
+	long int id_point, id_cluster;
+	vector<unsigned long long> values;
+	long int total_values;
 	string name;
 
 public:
-	Point(int id_point, vector<long double>& values, string name = "")
+	Point(long int id_point, vector<unsigned long long>& values, string name = "")
 	{
 		this->id_point = id_point;
 		total_values = values.size();
@@ -34,27 +36,27 @@ public:
 		id_cluster = -1;
 	}
 
-	int getID()
+	long int getID()
 	{
 		return id_point;
 	}
 
-	void setCluster(int id_cluster)
+	void setCluster(long int id_cluster)
 	{
 		this->id_cluster = id_cluster;
 	}
 
-	int getCluster()
+	long int getCluster()
 	{
 		return id_cluster;
 	}
 
-	long double getValue(long int index)
+	unsigned long long getValue(long int index)
 	{
 		return values[index];
 	}
 
-	int getTotalValues()
+	long int getTotalValues()
 	{
 		return total_values;
 	}
@@ -73,22 +75,21 @@ public:
 class Cluster
 {
 private:
-	int id_cluster;
-	vector<double> central_values;
+	long int id_cluster;
+	vector<unsigned long long> central_values;
 	vector<Point> points;
 
 public:
-	Cluster(int id_cluster, Point point)
+	Cluster(long int id_cluster, Point point)
 	{
 		this->id_cluster = id_cluster;
 
-		int total_values = point.getTotalValues();
-
+		long int total_values = point.getTotalValues();
 
 		for(int i = 0; i < total_values; i++)
 			central_values.push_back(point.getValue(i));
+
 		points.push_back(point);
-		
 	}
 
 	void addPoint(Point point)
@@ -111,7 +112,7 @@ public:
 		return false;
 	}
 
-	long double getCentralValue(long int index)
+	unsigned long long getCentralValue(long int index)
 	{
 		return central_values[index];
 	}
@@ -140,46 +141,46 @@ public:
 class KMeans
 {
 private:
-    int K; // number of clusters
+	long int K; // number of clusters
 	long int total_values, total_points, max_iterations;
 	vector<Cluster> clusters;
+
 	// return ID of nearest center (uses euclidean distance)
-		int getIDNearestCenter(Point point)
+	long int getIDNearestCenter(Point point)
+	{
+		long double sum = 0.0, min_dist;
+		long int id_cluster_center = 0;
+
+		for(int i = 0; i < total_values; i++)
 		{
-			long double sum = 0.0, min_dist;
-			long int id_cluster_center = 0;
-
-			for(long int i = 0; i < total_values; i++)
-			{
-				sum += pow(clusters[0].getCentralValue(i) -
-						point.getValue(i), 2.0);
-			}
-
-			min_dist = sqrt(sum);
-
-			for(long int i = 1; i < K; i++)
-			{
-				long double dist;
-				sum = 0.0;
-
-				for(long int j = 0; j < total_values; j++)
-				{
-					sum += pow(clusters[i].getCentralValue(j) -
-							point.getValue(j), 2.0);
-				}
-
-				dist = sqrt(sum);
-
-				if(dist < min_dist)
-				{
-					min_dist = dist;
-					id_cluster_center = i;
-				}
-			}
-
-			return id_cluster_center;
+			sum += pow(clusters[0].getCentralValue(i) -
+					   point.getValue(i), 2.0);
 		}
-	
+
+		min_dist = sqrt(sum);
+
+		for(int i = 1; i < K; i++)
+		{
+			long double dist;
+			sum = 0.0;
+
+			for(int j = 0; j < total_values; j++)
+			{
+				sum += pow(clusters[i].getCentralValue(j) -
+						   point.getValue(j), 2.0);
+			}
+
+			dist = sqrt(sum);
+
+			if(dist < min_dist)
+			{
+				min_dist = dist;
+				id_cluster_center = i;
+			}
+		}
+
+		return id_cluster_center;
+	}
 
 public:
 	KMeans(long int K, long int total_points, long int total_values, long int max_iterations)
@@ -196,9 +197,9 @@ public:
 			return;
 
 		vector<long int> prohibited_indexes;
-
+		unsigned long long sumaError = 0.0;
 		// choose K distinct values for the centers of the clusters
-		for(long int i = 0; i < K; i++)
+		for(int i = 0; i < K; i++)
 		{
 			while(true)
 			{
@@ -221,9 +222,8 @@ public:
 		while(true)
 		{
 			bool done = true;
-
 			// associates each point to the nearest center
-			for(long int i = 0; i < total_points; i++)
+			for(int i = 0; i < total_points; i++)
 			{
 				long int id_old_cluster = points[i].getCluster();
 				long int id_nearest_center = getIDNearestCenter(points[i]);
@@ -240,19 +240,32 @@ public:
 			}
 
 			// recalculating the center of each cluster
-			for(long int i = 0; i < K; i++)
-			{
-				for(long int j = 0; j < total_values; j++)
+			
+			for(int i = 0; i < K; i++)
+			{	
+
+
+				for(int j = 0; j < total_values; j++)
 				{
 					long int total_points_cluster = clusters[i].getTotalPoints();
-					long double sum = 0.0;
+					unsigned long long sum = 0.0;
 
 					if(total_points_cluster > 0)
 					{
 						//Se paraleliza la forma de calcular para cada cluster la media
 						#pragma omp for schedule(static,2)
+						for(int p = 0; p < total_points_cluster; p++){
+							sum += clusters[i].getPoint(p).getValue(j); 
+						}
+
+						
+						
 						for(int p = 0; p < total_points_cluster; p++)
-							sum += clusters[i].getPoint(p).getValue(j);
+						{
+							sumaError += clusters[i].getPoint(p).getValue(j) - (sum / total_points_cluster);
+						}
+
+							
 						clusters[i].setCentralValue(j, sum / total_points_cluster);
 					}
 				}
@@ -261,6 +274,9 @@ public:
 			if(done == true || iter >= max_iterations)
 			{
 				cout << "Break in iteration " << iter << "\n\n";
+				cout << "\n";
+
+				cout << "Square error mean: "<< sumaError << "\n\n";
 				break;
 			}
 
@@ -268,15 +284,15 @@ public:
 		}
 
 		// shows elements of clusters
-		for(long int i = 0; i < K; i++)
+		for(int i = 0; i < K; i++)
 		{
 			long int total_points_cluster =  clusters[i].getTotalPoints();
 
 			cout << "Cluster " << clusters[i].getID() + 1 << endl;
-			for(long int j = 0; j < total_points_cluster; j++)
+			for(int j = 0; j < total_points_cluster; j++)
 			{
 				cout << "Point " << clusters[i].getPoint(j).getID() + 1 << ": ";
-				for(long int p = 0; p < total_values; p++)
+				for(int p = 0; p < total_values; p++)
 					cout << clusters[i].getPoint(j).getValue(p) << " ";
 
 				string point_name = clusters[i].getPoint(j).getName();
@@ -289,8 +305,10 @@ public:
 
 			cout << "Cluster values: ";
 
-			for(long int j = 0; j < total_values; j++)
+			for(int j = 0; j < total_values; j++)
 				cout << clusters[i].getCentralValue(j) << " ";
+
+			
 
 			cout << "\n\n";
 		}
@@ -301,28 +319,41 @@ int main(int argc, char *argv[])
 {
 	srand (time(NULL));
 	Timer t1;
-	
+	long int total_points, total_values, K, max_iterations, has_name;
 
-	int total_points, total_values, K, max_iterations, has_name;
+	/*
+	ifstream filein("datasets/NetflixDataSet1.txt");
+	string line;
+	getline(filein, line);
+	cout<<line<<endl;
+	istringstream iss(line);
+	string subs;
+	for(int i=0;i<5;i++)
+    {
+        if(i==0) iss >> total_points;
+		if(i==1) iss >> total_values;
+		if(i==2) iss >> K;
+		if(i==3) iss >> max_iterations;
+		if(i==4) iss >> has_name;
+    }
+	*/
 
 	cin >> total_points >> total_values >> K >> max_iterations >> has_name;
 
 	vector<Point> points;
 	string point_name;
-
-	
-	for(long int i = 0; i < total_points; i++)
+	//Se paraleliza la creación de cada punto con sus atributos en el plano
+	#pragma omp for schedule(static,2)
+	for(int i = 0; i < total_points; i++)
 	{
-		vector<long double> values;
-		#pragma omp for schedule(static,2)
-			for(int j = 0; j < total_values; j++)
-			{
-				long double value;
-				cin >> value;
-				values.push_back(value);
-			}
-		
-		
+		vector<unsigned long long> values;
+
+		for(int j = 0; j < total_values; j++)
+		{
+			long double value;
+			cin >> value;
+			values.push_back(value);
+		}
 
 		if(has_name)
 		{
@@ -337,12 +368,11 @@ int main(int argc, char *argv[])
 		}
 	}
 
-
 	KMeans kmeans(K, total_points, total_values, max_iterations);
 	kmeans.run(points);
 
 	long long t1time = t1.elapsed();
-	cout << "Parallel Kmeans"<<" "<< t1time <<endl;
+	cout << "Parallel Kmeans"<<" "<< ((t1time/60)/60)/60<<endl;
 
 	return 0;
 }
