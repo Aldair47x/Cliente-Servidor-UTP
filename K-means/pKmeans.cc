@@ -1,6 +1,6 @@
 // Implementation of the KMeans Algorithm in parallel
 // reference: http://mnemstudio.org/clustering-k-means-example-1.htm
-#define TIMER_USES_MICROSECONDS 1
+//#define TIMER_USES_MICROSECONDS 1
 #include <iostream>
 #include <omp.h>
 #include <vector>
@@ -372,7 +372,7 @@ int main(int argc, char *argv[])
 	kmeans.run(points);
 
 	long long t1time = t1.elapsed();
-	cout << "Parallel Kmeans"<<" "<< ((t1time/60)/60)/60<<endl;
+	cout << "Parallel Kmeans "<< t1time<<" ms"<<endl;
 
 	return 0;
 }
