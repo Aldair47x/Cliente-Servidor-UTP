@@ -368,7 +368,7 @@ int main(int argc, char *argv[])
 	kmeans.run(points);
 
 	long long t1time = t1.elapsed();
-	cout << "Secuencial Kmeans"<<" "<< ((t1time/60)/60)/60<<endl;
+	cout << "Secuencial Kmeans "<< t1time<<" ms"<<endl;
 
 	return 0;
 }
