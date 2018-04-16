@@ -314,17 +314,12 @@ public:
 
 int main(int argc, char *argv[])
 {
-	srand (time(NULL));
-	Timer t1;
 	long int total_points, total_values, K, max_iterations, has_name;
-
-	/*
-	ifstream filein("datasets/NetflixDataSet1.txt");
+	ifstream filein("aldahito.txt");
 	string line;
 	getline(filein, line);
-	cout<<line<<endl;
+	//cout<<line<<endl;
 	istringstream iss(line);
-	string subs;
 	for(int i=0;i<5;i++)
     {
         if(i==0) iss >> total_points;
@@ -333,9 +328,9 @@ int main(int argc, char *argv[])
 		if(i==3) iss >> max_iterations;
 		if(i==4) iss >> has_name;
     }
-	*/
 
-	cin >> total_points >> total_values >> K >> max_iterations >> has_name;
+    //cout<<total_points<<" "<<total_values<<" "<<K<<" "<<max_iterations<<" "<<has_name<<endl;
+	//cin >> total_points >> total_values >> K >> max_iterations >> has_name;
 
 	vector<Point> points;
 	string point_name;
@@ -343,17 +338,21 @@ int main(int argc, char *argv[])
 	for(int i = 0; i < total_points; i++)
 	{
 		vector<unsigned long long> values;
-
+		getline(filein, line);
+		//cout<<line<<endl;
+		istringstream iss(line);
 		for(int j = 0; j < total_values; j++)
-		{
+		{	
 			long double value;
-			cin >> value;
+			iss >> value;
+			//cout<<value<<" ";
 			values.push_back(value);
 		}
-
+		//cout<<endl;
 		if(has_name)
 		{
-			cin >> point_name;
+			iss >> point_name;
+			//cout<<point_name<<endl;
 			Point p(i, values, point_name);
 			points.push_back(p);
 		}
@@ -364,6 +363,9 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	cout << "Starting Kmeans..." <<endl;
+	srand (time(NULL));
+	Timer t1;
 	KMeans kmeans(K, total_points, total_values, max_iterations);
 	kmeans.run(points);
 
