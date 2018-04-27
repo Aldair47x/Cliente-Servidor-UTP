@@ -11,7 +11,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <zmqpp/zmqpp.hpp>
 
+using namespace zmqpp;
 using namespace std;
 
 class Point
