@@ -223,11 +223,12 @@ public:
 		{
 			bool done = true;
 			// associates each point to the nearest center
+			#pragma omp for schedule(static,2)
 			for(int i = 0; i < total_points; i++)
 			{
 				long int id_old_cluster = points[i].getCluster();
 				long int id_nearest_center = getIDNearestCenter(points[i]);
-				#pragma omp for schedule(static,2)
+				
 				if(id_old_cluster != id_nearest_center)
 				{
 					if(id_old_cluster != -1)
