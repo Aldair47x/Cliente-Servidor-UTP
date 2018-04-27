@@ -74,6 +74,40 @@ Compiling the `Kmeans parallel` with the `NetflixDataSet1.txt` we obtain that pu
 <p>Square error mean: 47458</p>
 <p>Break in iteration 1000</p>
 
+After compiling the `Kmeans sequencial` with the `Netflix.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+
+<h3>K = 10 && 100 iterations</h3>
+<p>Cluster 1
+Numbers of points in the cluster: 2061
+Cluster values: 1291590 3</p>
+<p>Cluster 2 values: 1366592 3 (#points 57) </p>
+<p>Cluster 3 values: 1356354 4 (# points 1)</p>
+<p>Cluster 4 values: 1387662 1 (# points 1) </p>
+<p>Cluster 5 values: 1521836 1 (# points 1) </p>
+<p>Cluster 6 values: 1479828 2 (# points 1)</p>
+<p>Cluster 7 values: 1359575 2 (# points 1) </p>
+<p>Totail of points 105</p>
+<p>Square error mean: 76550</p>
+<p>Break in iteration 1000</p>
+
+
+Compiling the `Kmeans parallel` with the `Netflix.txt` we obtain that putting manual K clusters for the classification of the data is obtained: 
+<br />
+
+<h3>K = 7 && 1000 iterations</h3>
+<p>Cluster 1 values: 1344348 3 (#points 103)</p>
+<p>Cluster 2 values: 1350055 3 (#points 1) </p>
+<p>Cluster 3 values: 1352743 3 (# points 0)</p>
+<p>Cluster 4 values: 1352743 3 (# points 0) </p>
+<p>Cluster 5 values: 1359575 2 (# points 1) </p>
+<p>Cluster 6 values: 1373618 1 (# points 0)</p>
+<p>Cluster 7 values: 1373618 1 (# points 0) </p>
+<p>Time running: 2474 ms </p>
+<p>Totail of points 105</p>
+<p>Square error mean: 47458</p>
+<p>Break in iteration 1000</p>
+
+
 <h3>Example of dataset: </h3>
 
 7 2 2 100 0<br />
