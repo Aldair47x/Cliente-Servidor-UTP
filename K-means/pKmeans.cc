@@ -227,7 +227,7 @@ public:
 			{
 				long int id_old_cluster = points[i].getCluster();
 				long int id_nearest_center = getIDNearestCenter(points[i]);
-
+				#pragma omp for schedule(static,2)
 				if(id_old_cluster != id_nearest_center)
 				{
 					if(id_old_cluster != -1)
@@ -289,19 +289,8 @@ public:
 			long int total_points_cluster =  clusters[i].getTotalPoints();
 
 			cout << "Cluster " << clusters[i].getID() + 1 << endl;
-			for(int j = 0; j < total_points_cluster; j++)
-			{
-				cout << "Point " << clusters[i].getPoint(j).getID() + 1 << ": ";
-				for(int p = 0; p < total_values; p++)
-					cout << clusters[i].getPoint(j).getValue(p) << " ";
-
-				string point_name = clusters[i].getPoint(j).getName();
-
-				if(point_name != "")
-					cout << "- " << point_name;
-
-				cout << endl;
-			}
+			
+			cout<< "Numbers of points in the cluster: "<<total_points_cluster<<endl;
 
 			cout << "Cluster values: ";
 
@@ -318,14 +307,11 @@ public:
 int main(int argc, char *argv[])
 {
 	long int total_points, total_values, K, max_iterations, has_name;
-
-	
-	ifstream filein("datasets/NetflixDataSet1.txt");
+	ifstream filein("Netflix.txt");
 	string line;
 	getline(filein, line);
-	cout<<line<<endl;
+	//cout<<line<<endl;
 	istringstream iss(line);
-	string subs;
 	for(int i=0;i<5;i++)
     {
         if(i==0) iss >> total_points;
@@ -334,14 +320,13 @@ int main(int argc, char *argv[])
 		if(i==3) iss >> max_iterations;
 		if(i==4) iss >> has_name;
     }
-	
 
+    //cout<<total_points<<" "<<total_values<<" "<<K<<" "<<max_iterations<<" "<<has_name<<endl;
 	//cin >> total_points >> total_values >> K >> max_iterations >> has_name;
 
 	vector<Point> points;
 	string point_name;
-	//Se paraleliza la creación de cada punto con sus atributos en el plano
-	#pragma omp for schedule(static,2)
+
 	for(int i = 0; i < total_points; i++)
 	{
 		vector<unsigned long long> values;
@@ -349,17 +334,17 @@ int main(int argc, char *argv[])
 		//cout<<line<<endl;
 		istringstream iss(line);
 		for(int j = 0; j < total_values; j++)
-		{
+		{	
 			long double value;
 			iss >> value;
-			//cin >> value;
+			//cout<<value<<" ";
 			values.push_back(value);
 		}
-
+		//cout<<endl;
 		if(has_name)
 		{
 			iss >> point_name;
-			//cin >> point_name;
+			//cout<<point_name<<endl;
 			Point p(i, values, point_name);
 			points.push_back(p);
 		}
@@ -378,6 +363,4 @@ int main(int argc, char *argv[])
 
 	long long t1time = t1.elapsed();
 	cout << "Parallel Kmeans "<< t1time<<" ms"<<endl;
-
-	return 0;
 }

@@ -11,9 +11,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <zmqpp/zmqpp.hpp>
+//#include <zmqpp/zmqpp.hpp>
 
-using namespace zmqpp;
+//using namespace zmqpp;
 using namespace std;
 
 class Point
@@ -288,19 +288,8 @@ public:
 			long int total_points_cluster =  clusters[i].getTotalPoints();
 
 			cout << "Cluster " << clusters[i].getID() + 1 << endl;
-			for(int j = 0; j < total_points_cluster; j++)
-			{
-				cout << "Point " << clusters[i].getPoint(j).getID() + 1 << ": ";
-				for(int p = 0; p < total_values; p++)
-					cout << clusters[i].getPoint(j).getValue(p) << " ";
-
-				string point_name = clusters[i].getPoint(j).getName();
-
-				if(point_name != "")
-					cout << "- " << point_name;
-
-				cout << endl;
-			}
+			
+			cout<< "Numbers of points in the cluster: "<<total_points_cluster<<endl;
 
 			cout << "Cluster values: ";
 
@@ -317,7 +306,7 @@ public:
 int main(int argc, char *argv[])
 {
 	long int total_points, total_values, K, max_iterations, has_name;
-	ifstream filein("aldahito.txt");
+	ifstream filein("Netflix.txt");
 	string line;
 	getline(filein, line);
 	//cout<<line<<endl;
