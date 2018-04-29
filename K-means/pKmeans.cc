@@ -223,7 +223,7 @@ public:
 		{
 			bool done = true;
 			// associates each point to the nearest center
-			#pragma omp for schedule(static,2)
+			
 			for(int i = 0; i < total_points; i++)
 			{
 				long int id_old_cluster = points[i].getCluster();
@@ -240,8 +240,10 @@ public:
 				}
 			}
 
-			// recalculating the center of each cluster
-			
+		// recalculating the center of each cluster
+		
+
+			 
 			for(int i = 0; i < K; i++)
 			{	
 
@@ -252,15 +254,17 @@ public:
 					unsigned long long sum = 0.0;
 
 					if(total_points_cluster > 0)
-					{
+					{	
+						#pragma omp parallel
+						{
 						//Se paraleliza la forma de calcular para cada cluster la media
-						#pragma omp for schedule(static,2)
-						for(int p = 0; p < total_points_cluster; p++){
-							sum += clusters[i].getPoint(p).getValue(j); 
+							#pragma omp for
+							for(int p = 0; p < total_points_cluster; p++){
+								sum += clusters[i].getPoint(p).getValue(j); 
+							}
+						
 						}
-
-						
-						
+							
 						for(int p = 0; p < total_points_cluster; p++)
 						{
 							sumaError += clusters[i].getPoint(p).getValue(j) - (sum / total_points_cluster);
@@ -271,7 +275,7 @@ public:
 					}
 				}
 			}
-
+		
 			if(done == true || iter >= max_iterations)
 			{
 				cout << "Break in iteration " << iter << "\n\n";
@@ -308,7 +312,7 @@ public:
 int main(int argc, char *argv[])
 {
 	long int total_points, total_values, K, max_iterations, has_name;
-	ifstream filein("Netflix.txt");
+	ifstream filein("dd.txt");
 	string line;
 	getline(filein, line);
 	//cout<<line<<endl;
@@ -363,5 +367,5 @@ int main(int argc, char *argv[])
 	kmeans.run(points);
 
 	long long t1time = t1.elapsed();
-	cout << "Parallel Kmeans "<< t1time<<" ms"<<endl;
+	cout << "Parallel Kmeans "<< t1time/1000<<" s"<<endl;
 }

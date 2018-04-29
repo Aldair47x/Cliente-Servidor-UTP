@@ -1,6 +1,6 @@
 // Implementation of the KMeans Algorithm
 // reference: http://mnemstudio.org/clustering-k-means-example-1.htm
-#define TIMER_USES_MICROSECONDS 1
+//#define TIMER_USES_MICROSECONDS 1
 #include <iostream>
 #include <vector>
 #include <math.h>
@@ -306,7 +306,7 @@ public:
 int main(int argc, char *argv[])
 {
 	long int total_points, total_values, K, max_iterations, has_name;
-	ifstream filein("Netflix.txt");
+	ifstream filein("dd.txt");
 	string line;
 	getline(filein, line);
 	//cout<<line<<endl;
@@ -361,7 +361,8 @@ int main(int argc, char *argv[])
 	kmeans.run(points);
 
 	long long t1time = t1.elapsed();
-	cout << "Secuencial Kmeans "<< t1time<<" ms"<<endl;
+	cout << "Secuencial Kmeans "<< t1time/1000<<" s"<<endl;
+
 
 	return 0;
 }
