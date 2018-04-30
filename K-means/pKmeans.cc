@@ -141,6 +141,8 @@ public:
 class KMeans
 {
 private:
+
+
 	long int K; // number of clusters
 	long int total_values, total_points, max_iterations;
 	vector<Cluster> clusters;
@@ -255,15 +257,14 @@ public:
 
 					if(total_points_cluster > 0)
 					{	
-						#pragma omp parallel
-						{
+						
 						//Se paraleliza la forma de calcular para cada cluster la media
-							#pragma omp for
+							#pragma omp parallel for
 							for(int p = 0; p < total_points_cluster; p++){
 								sum += clusters[i].getPoint(p).getValue(j); 
 							}
 						
-						}
+						
 							
 						for(int p = 0; p < total_points_cluster; p++)
 						{

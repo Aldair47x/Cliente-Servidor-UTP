@@ -1,141 +1,86 @@
-<h1>K-Means Clustering Algorithm with the Netflix dataset</h1>
-
-<p>Implementation in C++ of the K-Means clustering algorithm.
-
-Examples of datasets are in datasets folder.
-
-References are in references folder.
-
-This link was very useful for me: http://mnemstudio.org/clustering-k-means-example-1.htm
-
-The implementation is in the file kmeans.cpp.
-
-Each dataset is in format expected by the program.
-
-Explanation of the format:
-
-First line: A B C D E
-
-"A" is the amount of data points.<br />
-"B" is the amount of attributes.<br />
-"C" is the amount of clusters.<br />
-"D" is the maximum iterations.<br />
-"E" indicates if contains a name for each data point. The value for "E" is 0 (not contains) or 1 (contains).<br />
-The next "A" lines contains "B" attributes and the data point name (if "E" variable is 1).<br />
-
 <h3>Example that contains data point name (Netlix movies's name): </h3>
 
 
 105 2 7 100 1 <br />
-1488844 3 Movie1 <br />
-822109 5 Movie1 <br />
-885013 4 Movie1 <br />
-30878 4 Movie1 <br />
-823519 3 Movie1 <br />
-893988 3 Movie1 <br />
-124105 4 Movie1 <br />
+1488844 3 1 <br />
+822109 5 1 <br />
+885013 4 2 <br />
+30878 4 8 <br />
+823519 3 1 <br />
+893988 3 14 <br />
+124105 4 17 <br />
 (...)<br />
 
 "1488844" is an anonymous user encrypted <br />
-"3" The integral rating of the movie (1 to 5) <br />
-"Movie1" The number of the movie <br />
+"3" The integral rating of the  (1 to 5) <br />
+"1" The number of the movie <br />
 
 
-<h2>Quick analisis of the data </h2>
+<h2>Quick analysis of the data </h2>
 
-After compiling the `Kmeans sequencial` with the `NetflixDataSet1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+After compiling the `Kmeans sequencial` with the `combined_1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
 
-<h3>K = 7 && 1000 iterations</h3>
-<p>Cluster 1 values: 1311267 3 (#points 43)</p>
-<p>Cluster 2 values: 1366592 3 (#points 57) </p>
-<p>Cluster 3 values: 1356354 4 (# points 1)</p>
-<p>Cluster 4 values: 1387662 1 (# points 1) </p>
-<p>Cluster 5 values: 1521836 1 (# points 1) </p>
-<p>Cluster 6 values: 1479828 2 (# points 1)</p>
-<p>Cluster 7 values: 1359575 2 (# points 1) </p>
-<p>Totail of points 105</p>
-<p>Square error mean: 76550</p>
-<p>Break in iteration 1000</p>
+<h3>K = 5 && 100 iterations</h3>
+Square error mean: 2333097<br />
+
+Cluster 1 <br />
+Numbers of points in the cluster: 6079 <br />
+Cluster values: 1191793 3 6 <br />
+
+Cluster 2 <br />
+Numbers of points in the cluster: 4124 <br />
+Cluster values: 1168937 3 6 <br />
+
+Cluster 3 <br />
+Numbers of points in the cluster: 3841
+Cluster values: 1708601 3 7 <br />
+
+Cluster 4 <br />
+Numbers of points in the cluster: 723 <br />
+Cluster values: 1099236 2 4 <br />
+
+Cluster 5 <br />
+Numbers of points in the cluster: 233 <br />
+Cluster values: 1748914 2 4 <br />
+
 
 
 Compiling the `Kmeans parallel` with the `NetflixDataSet1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: 
 <br />
 
-<h3>K = 7 && 1000 iterations</h3>
-<p>Cluster 1 values: 1344348 3 (#points 103)</p>
-<p>Cluster 2 values: 1350055 3 (#points 1) </p>
-<p>Cluster 3 values: 1352743 3 (# points 0)</p>
-<p>Cluster 4 values: 1352743 3 (# points 0) </p>
-<p>Cluster 5 values: 1359575 2 (# points 1) </p>
-<p>Cluster 6 values: 1373618 1 (# points 0)</p>
-<p>Cluster 7 values: 1373618 1 (# points 0) </p>
-<p>Time running: 2474 ms </p>
-<p>Totail of points 105</p>
-<p>Square error mean: 47458</p>
-<p>Break in iteration 1000</p>
+Square error mean: 2337811 <br />
 
-After compiling the `Kmeans sequencial` with the `Netflix.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+Cluster 1 <br />
+Numbers of points in the cluster: 5838 <br />
+Cluster values: 587162 3 6 <br />
 
-<h3>K = 10 && 100 iterations</h3>
-<p>Cluster 1--Numbers of points in the cluster: 2061--Cluster values: 1291590 3 </p>
-<p>Cluster 2--Numbers of points in the cluster: 222--Cluster values: 1101691 3</p>
-<p>Cluster 3--Numbers of points in the cluster: 1--Cluster values: 806027 1</p>
-<p>Cluster 4--Numbers of points in the cluster: 118--Cluster values: 1434079 3</p>
-<p>Cluster 5--Numbers of points in the cluster: 0--Cluster values: 991355 1 </p>
-<p>Cluster 6--Numbers of points in the cluster: 229--Cluster values: 1737430 3</p>
-<p>Cluster 7--Numbers of points in the cluster: 64--Cluster values: 895966 2</p>
-<p>Cluster 8--Numbers of points in the cluster: 2--Cluster values: 1358458 2</p>
-<p>Cluster 9--Numbers of points in the cluster: 4--Cluster values: 1015375 1</p>
-<p>Cluster 10--Numbers of points in the cluster: 3--Cluster values: 1389961 1</p>
-<p>Totail of points 2704</p>
-<p>Square error mean: 302040</p>
-<p>Break in iteration 100</p>
-<p>Secuencial Kmeans 25431680 ms</p>
+Cluster 2 <br />
+Numbers of points in the cluster: 2667 <br />
+Cluster values: 1750646 3 5 <br />
+
+Cluster 3 <br />
+Numbers of points in the cluster: 2910 <br />
+Cluster values: 1448558 3 6 <br />
+
+Cluster 4 <br />
+Numbers of points in the cluster: 1346 <br />
+Cluster values: 1981024 2 5 <br />
+
+Cluster 5 <br />
+Numbers of points in the cluster: 2239 <br />
+Cluster values: 2167038 3 7 <br />
+
+Parallel Kmeans 538 s <br />
 
 
-Compiling the `Kmeans parallel` with the `Netflix.txt` we obtain that putting manual K clusters for the classification of the data is obtained: 
-<br />
 
-<h3>K = 10 && 100 iterations</h3>
-<p>Cluster 1--Numbers of points in the cluster: 1681--Cluster values: 1364513 3</p>
-<p>Cluster 2--Numbers of points in the cluster: 313--Cluster values: 996490 3</p>
-<p>Cluster 3--Numbers of points in the cluster: 30--Cluster values: 903726 1</p>
-<p>Cluster 4--Numbers of points in the cluster: 307--Cluster values: 1012506 3</p>
-<p>Cluster 5--Numbers of points in the cluster: 120--Cluster values: 1436176 3</p>
-<p>Cluster 6--Numbers of points in the cluster: 235--Cluster values: 1744357 3</p>
-<p>Cluster 7--Numbers of points in the cluster: 5--Cluster values: 920057 1</p>
-<p>Cluster 8--Numbers of points in the cluster: 7--Cluster values: 764053 1</p>
-<p>Cluster 9--Numbers of points in the cluster: 1--Cluster values: 1321550 1</p>
-<p>Cluster 10--Numbers of points in the cluster: 5--Cluster values: 1119620 1</p>
-<p>Totail of points 2704</p>
-<p>Square error mean: 312965</p>
-<p>Break in iteration 100</p>
-<p>Parallel Kmeans 24310 ms</p>
-
-
-<h3>Example of dataset: </h3>
-
-7 2 2 100 0<br />
-1.0 1.0<br />
-1.5 2.0<br />
-3.0 4.0<br />
-5.0 7.0<br />
-3.5 5.0<br />
-4.5 5.0<br />
-3.5 4.5<br />
-
-7 is the amount of data points.<br />
-2 is the amount of attributes.<br />
-2 is the amount of clusters.<br />
-100 is the maximum iterations.<br />
-0 indicates that not contains data point name.<br />
-The next 7 lines contains 2 attributes each.<br />
 
 
 
 The euclidean distance was used for to calculate the distance of each data point for the centroid of cluster.
 
 The algorithm stops by maximum number of iterations or if no data point exchange cluster.
+
 </p>
 
 ## Installing and Running
