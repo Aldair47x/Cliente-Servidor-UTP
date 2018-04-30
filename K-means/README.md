@@ -20,7 +20,7 @@
 
 <h3>Sequential</h3>
 
-After compiling the `Kmeans sequencial` with the `combined_1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: <br />
+After compiling the `Kmeans sequential` with the `combined_1.txt` we obtain that putting manual K clusters for the clustering of the data is obtained: <br />
 
 <h3>K = 5 && 100 iterations</h3>
 
@@ -48,7 +48,7 @@ Cluster values: 1748914 2 4 <br />
 
 <h3>Parallel</h3>
 
-Compiling the `Kmeans parallel` with the `NetflixDataSet1.txt` we obtain that putting manual K clusters for the classification of the data is obtained: 
+Compiling the `Kmeans parallel` with the `combined_1.txt` we obtain that putting manual K clusters for the clustering of the data is obtained: 
 <br />
 
 <h3>K = 5 && 100 iterations</h3>
@@ -79,7 +79,7 @@ Parallel Kmeans 538 s <br />
 
 
 
-
+<h4>#####</h4>
 
 
 The euclidean distance was used for to calculate the distance of each data point for the centroid of cluster.
