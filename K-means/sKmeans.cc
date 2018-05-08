@@ -218,7 +218,7 @@ public:
 			}
 		}
 
-		long int iter = 1;
+		int iter = 1;
 
 		while(true)
 		{
@@ -355,6 +355,8 @@ int main(int argc, char *argv[])
 	}
 
 	cout << "Starting Kmeans..." <<endl;
+	cout << "Input the K: ";
+	cin >> K;
 	srand (time(NULL));
 	Timer t1;
 	KMeans kmeans(K, total_points, total_values, max_iterations);

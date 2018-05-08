@@ -258,11 +258,11 @@ public:
 					if(total_points_cluster > 0)
 					{	
 						
-						//Se paraleliza la forma de calcular para cada cluster la media
-							#pragma omp parallel for
-							for(int p = 0; p < total_points_cluster; p++){
-								sum += clusters[i].getPoint(p).getValue(j); 
-							}
+						
+						#pragma omp parallel for
+						for(int p = 0; p < total_points_cluster; p++){
+							sum += clusters[i].getPoint(p).getValue(j); 
+						}
 						
 						
 							
@@ -327,9 +327,7 @@ int main(int argc, char *argv[])
 		if(i==4) iss >> has_name;
     }
 
-    //cout<<total_points<<" "<<total_values<<" "<<K<<" "<<max_iterations<<" "<<has_name<<endl;
-	//cin >> total_points >> total_values >> K >> max_iterations >> has_name;
-
+   
 	vector<Point> points;
 	string point_name;
 
@@ -337,7 +335,7 @@ int main(int argc, char *argv[])
 	{
 		vector<unsigned long long> values;
 		getline(filein, line);
-		//cout<<line<<endl;
+
 		istringstream iss(line);
 		for(int j = 0; j < total_values; j++)
 		{	
@@ -362,6 +360,8 @@ int main(int argc, char *argv[])
 	}
 
 	cout << "Starting Kmeans..." <<endl;
+	cout << "Input the K: ";
+	cin >> K;
 	srand (time(NULL));
 	Timer t1;
 	KMeans kmeans(K, total_points, total_values, max_iterations);
