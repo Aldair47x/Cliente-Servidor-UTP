@@ -313,7 +313,7 @@ public:
 int main(int argc, char *argv[])
 {
 	long int total_points, total_values, K, max_iterations, has_name;
-	ifstream filein("dd.txt");
+	ifstream filein("combined_1.txt");
 	string line;
 	getline(filein, line);
 	//cout<<line<<endl;
