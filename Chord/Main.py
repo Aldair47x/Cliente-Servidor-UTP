@@ -1,16 +1,19 @@
 import Chord
 import Node
+import random
+
 
 def initValues(idnumber_):
-    keyValue = []
+    keyValue = {}
     for i in range(Node.totalNodes-1):
         if(i==idnumber_):
             pass
         else:
             auxHashKey = Chord.converterSha1(i)
-            auxKeyValue = {i:auxHashKey}
-            keyValue.append(auxKeyValue)
-    return keyValue    
+            keyValue[i] = auxHashKey
+            #auxKeyValue = {i:auxHashKey}
+            #keyValue.append(auxKeyValue)
+    return keyValue   
 
 
 if __name__ == "__main__":
@@ -26,4 +29,10 @@ if __name__ == "__main__":
     
 
     x = Node.myNode(323,hashT,keyValue,successor,predecessor,fingerTable)
-    print(x.keyvalue_)
+    #print(x.keyvalue_)
+
+    nodesKeysList = list(x.keyvalue_.keys())
+    m = [2,3]
+    print(random.choice(m))
+
+
