@@ -4,6 +4,7 @@ import Node
 import hashlib
 import sys
 import random
+import operator
 
 def converterSha1(idnumber_):
     stringIdNumber = str(idnumber_)
@@ -13,21 +14,41 @@ def converterSha1(idnumber_):
 
 class chord():
     def __init__(self):
-        self.nodes_ = {}
+        self.nodes_ = {}  #Key IdNumber node, value Node
+
+
+    def getChordKeys():
+        nodesKeysList = list(self.nodes.keys())
+        return nodesKeysList    
 
     def fingerTableGenerator(node):
-        auxHashT = node.Node.getHashT()
-        auxKeyHash = auxHashT.keys()
-        pass
-    
+        auxIdHash = node.getIdHash()
+        fingerTable = {}
+        nodesKeysList = sort(list(self.nodes_.keys()))
+        for i in range (0,6):
+            sum = auxIdHash + pow(2,i)
+            if(self.nodes_.get(sum) != None):
+                fingerTable[sum] = sum
+            else:
+                for i in nodesKeysList:
+                    if i > sum :
+                        aux = i
+                        break
+                fingerTable[sum] = aux
+        return fingerTable               
+
+
+    def getSuccessor(node):
+        auxFingerTable = node.getFingerTable()
+
     def keyValueGenerator(node):
         pass
 
-    def createNode(IdHash, idnumber_):
+    def createNode(idnumber_):
         hashKey = converterSha1(idnumber_)
-        newIdHash = IdHash
+        newIdHash = idnumber_
         newHashT = {hashKey:[]}
-        newNode = myNode(newIdHash,newHashT,)
+        newNode = myNode(newIdHash,newHashT,[],[],{})
 
     def addNode(node):
         auxHashT = node.Node.getHashT()
@@ -36,6 +57,12 @@ class chord():
         if auxFlag is none:
             nodesKeysList = list(self.nodes_.keys())
             auxNodeNumber = random.choice(nodesKeysList)
+
+    def startChord():
+        t = Node.totalNodes
+        firstIdNode = int(random.uniform(0,t))
+        secondIdNode = int(random.uniform(0,t))
+
 
 
 

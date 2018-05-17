@@ -8,10 +8,9 @@ totalNodes = 64
 
 
 class myNode:
-    def __init__(self, IdHash, hashT, keyValue, successor, predecessor,fingerTable):
+    def __init__(self, IdHash, hashT, successor, predecessor,fingerTable):
         self.idhash_ = IdHash
         self.hash_ = hashT
-        self.keyvalue_ = keyValue
         self.successor_ = successor
         self.predecessor_ = predecessor
         self.fingertable_ = fingerTable
@@ -19,35 +18,29 @@ class myNode:
     def setHashT(hashT):
         self.hash_ = hashT
 
-    def getHashT():
+    def getHashT(self):
         return self.hash_
-
-    def setKeyValue(keyValue):
-        self.keyvalue_ = keyValue
-
-    def getKeyValue():
-        return self.keyvalue_
 
     def setSuccessor(successor):
         self.successor_ = successor
 
-    def getSuccessor():
+    def getSuccessor(self):
         return self.successor_
 
     def setPredecessor(predecessor):
         self.predecessor_ = predecessor
 
-    def getPredecessor():
+    def getPredecessor(self):
         return self.predecessor_
 
     def setFingerTable(fingerTable):
         self.fingertable_ = fingerTable
 
-    def getFingerTable():
+    def getFingerTable(self):
         return self.fingertable_
 
     def setIdHash(IdHash):
         self.idhash_ = IdHash
 
-    def getIdHash():
+    def getIdHash(self):
         return self.idhash_
