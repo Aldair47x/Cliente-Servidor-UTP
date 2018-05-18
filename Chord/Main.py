@@ -1,4 +1,3 @@
-from Chord import *
 from Node import *
 import random
 import operator
@@ -49,14 +48,13 @@ if __name__ == "__main__":
 
     
 
-    x = myNode(4,{"sddsdf33e3es":[]},[],[],{})
-    z = fingerTableGenerator(x)
+    x = myNode(10,{"sddsdf33e3es":[]},[],[],{})
+    #z = fingerTableGenerator(x)
     #print(z)
     #nodesKeysList = list(x.keyvalue_.keys())
-    m = [2,3,3,3,6,1,5,6]
-    auxSuccessors = list(set(m))
-    c = chord()
-    c.startChord()
+    #m = [2,3,3,3,6,1,5,6]
+    #auxSuccessors = list(set(m))
+    x.startChord()
     print(c.getNodes())
     #print(auxSuccessors)
     #print(4 in m)
