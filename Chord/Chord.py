@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import Node
+from Node import *
 import hashlib
 import sys
 import random
@@ -12,21 +12,29 @@ def converterSha1(idnumber_):
     return newIdHash
 
 
-class chord():
+class chord(myNode):
     def __init__(self):
-        self.nodes_ = {}  #Key IdNumber node, value Node
+        myNode.__init__(self,int, {}, [],[] ,{})
+        self.nodes_ = {}  #Key IdNumberNode, value Node
+        self.fingerTableGenerator(myNode)
+        self.createNode()
+        self.getSuccessors()
 
 
-    def getChordKeys():
+    def getChordKeys(self):
         nodesKeysList = list(self.nodes.keys())
-        return nodesKeysList    
+        return nodesKeysList
 
-    def fingerTableGenerator(node):
-        auxIdHash = node.getIdHash()
-        fingerTable = {}
-        nodesKeysList = sort(list(self.nodes_.keys()))
-        for i in range (0,6):
-            sum = auxIdHash + pow(2,i)
+    def getNodes(self):
+        return self.nodes_        
+
+    def fingerTableGenerator(self,node):
+        auxIdHash = node.getIdHash(self)
+        print(auxIdHash)
+        fingerTable = {} 
+        nodesKeysList = list(self.nodes_.keys())
+        for i in range (0,15):
+            sum = pow(2,i)
             if(self.nodes_.get(sum) != None):
                 fingerTable[sum] = sum
             else:
@@ -38,8 +46,11 @@ class chord():
         return fingerTable               
 
 
-    def getSuccessor(node):
+    def getSuccessors(node):
         auxFingerTable = node.getFingerTable()
+        auxSuccessors = list(set(auxFingerTable.values()))
+        return auxSuccessors
+
 
     def keyValueGenerator(node):
         pass
@@ -48,7 +59,14 @@ class chord():
         hashKey = converterSha1(idnumber_)
         newIdHash = idnumber_
         newHashT = {hashKey:[]}
-        newNode = myNode(newIdHash,newHashT,[],[],{})
+        newNode = Node.myNode(newIdHash,newHashT,[],[],{})
+        auxFingerTable = fingerTableGenerator(newNode)
+        auxSuccessors = getSuccessors(newNode)
+        newNode.setFingerTable(auxFingerTable)
+        newNode.setSuccessor(auxSuccessors)
+        return newNode
+
+        
 
     def addNode(node):
         auxHashT = node.Node.getHashT()
@@ -58,12 +76,13 @@ class chord():
             nodesKeysList = list(self.nodes_.keys())
             auxNodeNumber = random.choice(nodesKeysList)
 
-    def startChord():
+    def startChord(self):
         t = Node.totalNodes
         firstIdNode = int(random.uniform(0,t))
         secondIdNode = int(random.uniform(0,t))
-
-
-
+        n1 = createNode(firstIdNode)
+        n2 = createNode(secondIdNode)
+        self.nodes_[firstIdNode] = n1
+        self.nodes_[secondIdNode] = n2
 
 

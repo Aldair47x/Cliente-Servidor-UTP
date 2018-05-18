@@ -1,5 +1,5 @@
-import Chord
-import Node
+from Chord import *
+from Node import *
 import random
 import operator
 
@@ -39,21 +39,26 @@ def fingerTableGenerator(node):
 
 if __name__ == "__main__":
     
-    hash_ = Chord.converterSha1(1)
+    """hash_ = Chord.converterSha1(1)
     hashT = {hash_:[43423,343]}
     hashT2 = {'dfdsss':[4342,3433],'343443':'2343243','32432':'23432423'}
     fingerTable = [{'343443':'2343243'},{'32432':'23432423'}]
     predecessor = "asddfds"
     successor = "dfdsss"
-    keyValue = initValues(10)
+    keyValue = initValues(10)"""
 
     
 
-    x = Node.myNode(4,{hash_:[]},[],[],{})
+    x = myNode(4,{"sddsdf33e3es":[]},[],[],{})
     z = fingerTableGenerator(x)
-    print(z)
+    #print(z)
     #nodesKeysList = list(x.keyvalue_.keys())
-    m = [2,3,5,6]
+    m = [2,3,3,3,6,1,5,6]
+    auxSuccessors = list(set(m))
+    c = chord()
+    c.startChord()
+    print(c.getNodes())
+    #print(auxSuccessors)
     #print(4 in m)
     #print(int(random.uniform(1,64)))
     #print(nodesKeysList)

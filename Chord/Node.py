@@ -4,7 +4,7 @@
 import hashlib
 import sys
 
-totalNodes = 64
+totalNodes = 32768
 
 
 class myNode:
