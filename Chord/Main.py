@@ -55,7 +55,9 @@ if __name__ == "__main__":
     #m = [2,3,3,3,6,1,5,6]
     #auxSuccessors = list(set(m))
     x.startChord()
-    print(c.getNodes())
+    p = list(getNodes().values())
+    print(p[1].getFingerTable())
+    print(p[0].getFingerTable())
     #print(auxSuccessors)
     #print(4 in m)
     #print(int(random.uniform(1,64)))
