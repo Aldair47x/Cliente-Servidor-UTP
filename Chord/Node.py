@@ -15,15 +15,11 @@ def converterSha1(idnumber_):
 
 
 class myNode:
-    def __init__(self, IdHash, hashT, successor, predecessor,fingerTable):
+    def __init__(self, IdHash, hashT, successor,fingerTable):
         self.idhash_ = IdHash
         self.hash_ = hashT
         self.successor_ = successor
-        self.predecessor_ = predecessor
         self.fingertable_ = fingerTable
-        #self.fingerTableGenerator()
-        #self.createNode()
-        #self.getSuccessors()
 
 
     def setHashT(self,hashT):
@@ -37,12 +33,6 @@ class myNode:
 
     def getSuccessor(self):
         return self.successor_
-
-    def setPredecessor(self,predecessor):
-        self.predecessor_ = predecessor
-
-    def getPredecessor(self):
-        return self.predecessor_
 
     def setFingerTable(self,fingerTable):
         self.fingertable_ = fingerTable
@@ -59,14 +49,15 @@ class myNode:
     def getChordKeys(self):
         nodesKeysList = list(self.nodes.keys())
         return nodesKeysList
+    
+    def toString(self):
+        return print(self.getIdHash()," ",self.getHashT()," ",self.getSuccessor()," ",self.getFingerTable()," ")
         
     def fingerTableGenerator(self):
         auxIdHash = self.getIdHash()
-        print("entre a la funcion")
-        print (auxIdHash, "prueba del print")
         #fingerTable = {} 
         nodesKeysList = list(nodes_.keys())
-        for i in range (0,5):
+        for i in range (0,14):
             sum =  auxIdHash + pow(2,i)
             if(nodes_.get(sum) != None):
                 self.fingertable_[sum] = sum
@@ -106,7 +97,6 @@ class myNode:
         n2 = createNode(secondIdNode)
         nodes_[firstIdNode] = n1
         nodes_[secondIdNode] = n2
-
         n2.fingerTableGenerator()
         n1.fingerTableGenerator()
 
@@ -114,7 +104,7 @@ def createNode(idnumber_):
     hashKey = converterSha1(idnumber_)
     newIdHash = idnumber_
     newHashT = {hashKey:[]}
-    newNode = myNode(newIdHash,newHashT,[],[],{})
+    newNode = myNode(newIdHash,newHashT,[],{})
     # auxFingerTable = newNode.fingerTableGenerator()
     # newNode.fingerTableGenerator()
     auxSuccessors = newNode.getSuccessors()

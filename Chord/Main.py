@@ -14,27 +14,7 @@ def initValues(idnumber_):
             #auxKeyValue = {i:auxHashKey}
             #keyValue.append(auxKeyValue)
     return keyValue  
-
-def fingerTableGenerator(node):
-        auxIdHash = node.getIdHash()
-        fingerTable = {}
-        nodesKeysList = [1,3,5,9,12,20,25,30,40,45,50]
-        for i in range (0,6):
-            sum = auxIdHash + pow(2,i)
-            k = True
-            for i in nodesKeysList:
-                if i == sum:
-                    k = False
-
-            if(k == False):
-                fingerTable[sum] = sum
-            else:
-                for i in nodesKeysList:
-                    if i > sum :
-                        aux = i
-                        break
-                fingerTable[sum] = aux
-        return fingerTable       
+  
 
 if __name__ == "__main__":
     
@@ -48,7 +28,7 @@ if __name__ == "__main__":
 
     
 
-    x = myNode(10,{"sddsdf33e3es":[]},[],[],{})
+    x = myNode(10,{"sddsdf33e3es":[]},[],{})
     #z = fingerTableGenerator(x)
     #print(z)
     #nodesKeysList = list(x.keyvalue_.keys())
@@ -56,8 +36,8 @@ if __name__ == "__main__":
     #auxSuccessors = list(set(m))
     x.startChord()
     p = list(getNodes().values())
-    print(p[1].getFingerTable())
-    print(p[0].getFingerTable())
+    print(p[1].toString())
+    print(p[0].toString())
     #print(auxSuccessors)
     #print(4 in m)
     #print(int(random.uniform(1,64)))
