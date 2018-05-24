@@ -55,27 +55,30 @@ class myNode:
         
     def fingerTableGenerator(self):
         auxIdHash = self.getIdHash()
-        #fingerTable = {} 
         nodesKeysList = list(nodes_.keys())
+
         for i in range (0,14):
             sum =  auxIdHash + pow(2,i)
-            if(nodes_.get(sum) != None):
+
+            if(not self.fingertable_):
+                self.successor_ = [auxIdHash]
+
+            elif(nodes_.get(sum) != None):
                 self.fingertable_[sum] = sum
-                # fingerTable[sum] = sum
+            
             else:
                 for i in nodesKeysList:
                     if i > sum :
                         aux = i
                         self.fingertable_[sum] = aux
-                        # fingerTable[sum] = aux
-                        break            
-        # return fingerTable               
+                        break                          
 
 
-    def getSuccessors(node):
-        auxFingerTable = node.getFingerTable()
+    def getSuccessors(self):
+        auxFingerTable = self.getFingerTable()
         auxSuccessors = list(set(auxFingerTable.values()))
-        return auxSuccessors
+        self.successor_ = auxSuccessors
+        pass
 
 
     def keyValueGenerator(node):
@@ -90,26 +93,27 @@ class myNode:
             auxNodeNumber = random.choice(nodesKeysList)
 
     def startChord(self):
-        t = totalNodes
-        firstIdNode = int(random.uniform(0,t))
-        secondIdNode = int(random.uniform(0,t))
+        firstIdNode = int(random.uniform(0,totalNodes))
+        secondIdNode = int(random.uniform(0,totalNodes))
         n1 = createNode(firstIdNode)
         n2 = createNode(secondIdNode)
+        for i in range (0,14):
+            sum1 =  firstIdNode + pow(2,i)
+            sum2 =  secondIdNode + pow(2,i)
+            n1.fingertable_[sum1] = secondIdNode
+            n2.fingertable_[sum2] = firstIdNode
+        n1.getSuccessors()
+        n2.getSuccessors()
         nodes_[firstIdNode] = n1
         nodes_[secondIdNode] = n2
-        n2.fingerTableGenerator()
-        n1.fingerTableGenerator()
+
+        
 
 def createNode(idnumber_):
     hashKey = converterSha1(idnumber_)
     newIdHash = idnumber_
     newHashT = {hashKey:[]}
     newNode = myNode(newIdHash,newHashT,[],{})
-    # auxFingerTable = newNode.fingerTableGenerator()
-    # newNode.fingerTableGenerator()
-    auxSuccessors = newNode.getSuccessors()
-    # newNode.setFingerTable(auxFingerTable)
-    newNode.setSuccessor(auxSuccessors)
     return newNode
 
 def getNodes():
