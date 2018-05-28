@@ -26,9 +26,7 @@ if __name__ == "__main__":
     successor = "dfdsss"
     keyValue = initValues(10)"""
 
-    
-
-    x = myNode(10,{"sddsdf33e3es":[]},[],{})
+    x = myNode(10,{"sddsdf33e3es":[]},[],{},[])
     #z = fingerTableGenerator(x)
     #print(z)
     #nodesKeysList = list(x.keyvalue_.keys())

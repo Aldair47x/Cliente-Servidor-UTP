@@ -15,11 +15,12 @@ def converterSha1(idnumber_):
 
 
 class myNode:
-    def __init__(self, IdHash, hashT, successor,fingerTable):
+    def __init__(self, IdHash, hashT, successor,fingerTable,keyValues):
         self.idhash_ = IdHash
         self.hash_ = hashT
         self.successor_ = successor
         self.fingertable_ = fingerTable
+        self.keyvalues_ = keyValues
 
 
     def setHashT(self,hashT):
@@ -45,13 +46,19 @@ class myNode:
 
     def getIdHash(self):
         return self.idhash_
+
+    def setKeyValues(self,keyValues):
+        self.keyvalues_ = keyValues
+
+    def getKeyValues(self):
+        return self.keyvalues_
     
     def getChordKeys(self):
         nodesKeysList = list(self.nodes.keys())
         return nodesKeysList
     
     def toString(self):
-        return print(self.getIdHash()," ",self.getHashT()," ",self.getSuccessor()," ",self.getFingerTable()," ")
+        return print(self.getIdHash()," ",self.getHashT()," ",self.getSuccessor()," ",self.getFingerTable()," ",self.getKeyValues()," ")
         
     def fingerTableGenerator(self):
         auxIdHash = self.getIdHash()
@@ -81,8 +88,12 @@ class myNode:
         pass
 
 
-    def keyValueGenerator(node):
-        pass
+    def keyValueGenerator(self):
+        auxIdHash = self.getIdHash()
+        nodesKeysList = (list(nodes_.keys())).sort()
+        for i in nodesKeysList:
+            break
+
 
     def addNode(node):
         auxHashT = node.Node.getHashT()
@@ -100,10 +111,22 @@ class myNode:
         for i in range (0,14):
             sum1 =  firstIdNode + pow(2,i)
             sum2 =  secondIdNode + pow(2,i)
+            if(sum1>totalNodes):
+                sum1 = sum1 % totalNodes
+            elif(sum2>totalNodes):
+                sum2 = sum2 % totalNodes
             n1.fingertable_[sum1] = secondIdNode
             n2.fingertable_[sum2] = firstIdNode
         n1.getSuccessors()
         n2.getSuccessors()
+
+        n1.keyvalues_.append(secondIdNode+1)
+        n1.keyvalues_.append(firstIdNode)
+        n2.keyvalues_.append(firstIdNode+1)
+        n2.keyvalues_.append(secondIdNode)
+
+            
+
         nodes_[firstIdNode] = n1
         nodes_[secondIdNode] = n2
 
@@ -113,7 +136,8 @@ def createNode(idnumber_):
     hashKey = converterSha1(idnumber_)
     newIdHash = idnumber_
     newHashT = {hashKey:[]}
-    newNode = myNode(newIdHash,newHashT,[],{})
+    newKeyValues = []
+    newNode = myNode(newIdHash,newHashT,{},{},[])
     return newNode
 
 def getNodes():
