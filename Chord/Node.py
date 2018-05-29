@@ -88,7 +88,18 @@ class myNode:
         self.successor_ = auxSuccessors
         
                     
-
+    def lookup(self,idnumber_):
+        auxNode = nodes_.get(firstIdNodeChord[0])
+        auxIdHash = auxNode.getIdHash()
+        lookupRange = []
+        if(idnumber_ > auxNode.getKeyValues()[1]):
+            for i in auxNode.getSuccessor():
+                if((idnumber_ > nodes_.get(i).getKeyValues()[0])&(idnumber_ < nodes_.get(i).getKeyValues()[1])):
+                    lookupRange.append(auxIdHash)
+                    lookupRange.append(i)
+                    return lookupRange            
+        else:
+            self.lookup(auxNode.getSuccessor()[-1])
                 
 
 
@@ -105,7 +116,7 @@ class myNode:
 
 
 
-    def addNode(node):
+    def addNode(self):
         auxHashT = node.Node.getHashT()
         auxKeyHash = auxHashT.keys()
         auxFlag = self.nodes.get(auxKeyHash)
@@ -154,15 +165,3 @@ def createNode(idnumber_):
 def getNodes():
     return nodes_
 
-def lookup(idnumber_):
-    auxNode = nodes_.get(firstIdNodeChord[0])
-    auxIdHash = auxNode.getIdHash()
-    lookupRange = []
-    if(idnumber_ > auxIdHash):
-        for i in auxNode.getSuccessor():
-            if((idnumber_ > nodes_.get(i).getKeyValues[0])&(idnumber_ < nodes_.get(i).getKeyValues[1])):
-                lookupRange.append(auxIdHash)
-                lookupRange.append(i)
-                return lookupRange    
-    else:
-        pass

@@ -36,8 +36,8 @@ if __name__ == "__main__":
     print(p[0].toString())
     print(p[1].toString())
 
-    m = lookup(15000)
-    print(m)
+    print(x.lookup(1500))
+    
     #print(auxSuccessors)
     #print(4 in m)
     #print(int(random.uniform(1,64)))
