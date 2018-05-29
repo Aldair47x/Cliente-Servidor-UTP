@@ -2,7 +2,6 @@ from Node import *
 import random
 import operator
 
-
 def initValues(idnumber_):
     keyValue = {}
     for i in range(Node.totalNodes):
@@ -14,7 +13,7 @@ def initValues(idnumber_):
             #auxKeyValue = {i:auxHashKey}
             #keyValue.append(auxKeyValue)
     return keyValue  
-  
+ 
 
 if __name__ == "__main__":
     
@@ -30,16 +29,21 @@ if __name__ == "__main__":
     #z = fingerTableGenerator(x)
     #print(z)
     #nodesKeysList = list(x.keyvalue_.keys())
-    #m = [2,3,3,3,6,1,5,6]
+    #m = [2,3,3,3,6,1,5,6,4,9,10,8]
     #auxSuccessors = list(set(m))
     x.startChord()
     p = list(getNodes().values())
     print(p[0].toString())
     print(p[1].toString())
+
+    m = lookup(15000)
+    print(m)
     #print(auxSuccessors)
     #print(4 in m)
     #print(int(random.uniform(1,64)))
     #print(nodesKeysList)
     #print(m[2])
     #print (random.choice(m))
+
+    
     

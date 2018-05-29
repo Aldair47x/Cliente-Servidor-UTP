@@ -7,6 +7,7 @@ import operator
 
 totalNodes = 32768
 nodes_ = {}
+firstIdNodeChord = [] 
 
 def converterSha1(idnumber_):
     stringIdNumber = str(idnumber_)
@@ -85,14 +86,23 @@ class myNode:
         auxFingerTable = self.getFingerTable()
         auxSuccessors = list(set(auxFingerTable.values()))
         self.successor_ = auxSuccessors
-        pass
+        
+                    
+
+                
+
+
 
 
     def keyValueGenerator(self):
         auxIdHash = self.getIdHash()
-        nodesKeysList = (list(nodes_.keys())).sort()
-        for i in nodesKeysList:
-            break
+        nodesKeysList = (list(nodes_.keys()))
+        auxNode = nodes_.get()
+        for x in auxNode.getSuccessors():
+            auxKeyValues = x.getKeyValues()
+            if((auxIdHash < auxKeyValues[0])&(auxIdHash >= auxKeyValues[1])):
+                self.keyvalues_.append()
+
 
 
     def addNode(node):
@@ -106,6 +116,7 @@ class myNode:
     def startChord(self):
         firstIdNode = int(random.uniform(0,totalNodes))
         secondIdNode = int(random.uniform(0,totalNodes))
+        firstIdNodeChord.append(firstIdNode)
         n1 = createNode(firstIdNode)
         n2 = createNode(secondIdNode)
         for i in range (0,14):
@@ -137,8 +148,21 @@ def createNode(idnumber_):
     newIdHash = idnumber_
     newHashT = {hashKey:[]}
     newKeyValues = []
-    newNode = myNode(newIdHash,newHashT,{},{},[])
+    newNode = myNode(newIdHash,newHashT,[],{},[])
     return newNode
 
 def getNodes():
     return nodes_
+
+def lookup(idnumber_):
+    auxNode = nodes_.get(firstIdNodeChord[0])
+    auxIdHash = auxNode.getIdHash()
+    lookupRange = []
+    if(idnumber_ > auxIdHash):
+        for i in auxNode.getSuccessor():
+            if((idnumber_ > nodes_.get(i).getKeyValues[0])&(idnumber_ < nodes_.get(i).getKeyValues[1])):
+                lookupRange.append(auxIdHash)
+                lookupRange.append(i)
+                return lookupRange    
+    else:
+        pass
