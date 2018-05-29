@@ -5,4 +5,7 @@
 ### INTEGRANTES 
 ► Aldair Bernal
 
-► Juan Jose Vera
+► Juan Jose Vera(Murió en combate)
+
+► Luis Alberto Borrero Velez
+
