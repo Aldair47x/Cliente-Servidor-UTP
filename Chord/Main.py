@@ -36,7 +36,7 @@ if __name__ == "__main__":
     print(p[0].toString())
     print(p[1].toString())
 
-    print(x.lookup(1500))
+    #print(x.lookup(1500))
     
     #print(auxSuccessors)
     #print(4 in m)

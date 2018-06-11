@@ -7,7 +7,7 @@ import operator
 
 totalNodes = 32768
 nodes_ = {}
-firstIdNodeChord = [] 
+firstIdNodeChord = []
 
 def converterSha1(idnumber_):
     stringIdNumber = str(idnumber_)
@@ -17,11 +17,11 @@ def converterSha1(idnumber_):
 
 class myNode:
     def __init__(self, IdHash, hashT, successor,fingerTable,keyValues):
-        self.idhash_ = IdHash
-        self.hash_ = hashT
-        self.successor_ = successor
-        self.fingertable_ = fingerTable
-        self.keyvalues_ = keyValues
+        self.idhash_ = IdHash  # Diccionario donde la llave es el id_number del nodo y el valor el socket
+        self.hash_ = hashT # Diccionario donde la llave es el hash del id_number y el valor una lista de {}
+        self.successor_ = successor # Una lista de cada sucesor del nodo
+        self.fingertable_ = fingerTable #Un diccionario con llave 2^i-1 + id_number y con valor el nodo asociado
+        self.keyvalues_ = keyValues # Una lista con el intervalo de llaves
 
 
     def setHashT(self,hashT):
@@ -88,18 +88,15 @@ class myNode:
         self.successor_ = auxSuccessors
         
                     
-    def lookup(self,idnumber_):
+    def addNode(self,idnumber_):
         auxNode = nodes_.get(firstIdNodeChord[0])
         auxIdHash = auxNode.getIdHash()
-        lookupRange = []
-        if(idnumber_ > auxNode.getKeyValues()[1]):
+        if(idnumber_ > ):
             for i in auxNode.getSuccessor():
-                if((idnumber_ > nodes_.get(i).getKeyValues()[0])&(idnumber_ < nodes_.get(i).getKeyValues()[1])):
-                    lookupRange.append(auxIdHash)
-                    lookupRange.append(i)
-                    return lookupRange            
+                           
         else:
-            self.lookup(auxNode.getSuccessor()[-1])
+            #self.addNode(auxNode.getSuccessor()[-1])
+            pass
                 
 
 
@@ -115,15 +112,6 @@ class myNode:
                 self.keyvalues_.append()
 
 
-
-    def addNode(self):
-        auxHashT = node.Node.getHashT()
-        auxKeyHash = auxHashT.keys()
-        auxFlag = self.nodes.get(auxKeyHash)
-        if auxFlag is none:
-            nodesKeysList = list(self.nodes_.keys())
-            auxNodeNumber = random.choice(nodesKeysList)
-
     def startChord(self):
         firstIdNode = int(random.uniform(0,totalNodes))
         secondIdNode = int(random.uniform(0,totalNodes))
@@ -133,12 +121,8 @@ class myNode:
         for i in range (0,14):
             sum1 =  firstIdNode + pow(2,i)
             sum2 =  secondIdNode + pow(2,i)
-            if(sum1>totalNodes):
-                sum1 = sum1 % totalNodes
-            elif(sum2>totalNodes):
-                sum2 = sum2 % totalNodes
-            n1.fingertable_[sum1] = secondIdNode
-            n2.fingertable_[sum2] = firstIdNode
+            n1.fingertable_[sum1 % totalNodes] = secondIdNode
+            n2.fingertable_[sum2 % totalNodes] = firstIdNode
         n1.getSuccessors()
         n2.getSuccessors()
 
