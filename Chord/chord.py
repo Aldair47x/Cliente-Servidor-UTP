@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import hashlib
 import random
 import sys
@@ -77,7 +79,7 @@ class myNode:
 			print(str(key) +" "+str(self.fingertable_[key]))
 
 	def show_hashTable(self):
-		for key in self.archivos:
+		for key in self.hashTable:
 			print(str(key) +" "+str(self.hashTable[key]))
 
 #Funcion para verificar si estoy en el rango del nodo
@@ -435,53 +437,16 @@ def main():
 				print("No hay archivos para recibir")
 
 	while conectado:
-		print("Escoger la opcion:")
-		print("1..Eliminar nodo")
-		print("2..Subir archivo")
-		print("3..Bajar archivo")
+		print("\t" + "******<<<<<<<<<<<<<<<<<<<<<<Menu Chord>>>>>>>>>>>>>>>>>>>>>******")
+		print("\n")
+		print("1) Cargar archivo en el Chord")
 		print("\n")
 		
-		op=int(input("Escoger la opcion:"))
+		op=int(input("(?): "))
 
 		if(op==1):
-			socket_cliente.disconnect(address)
-			sucesor_finger = nuevo.getFingerTable()
-			key_sucesor = (nuevo.getIdHash() + 2 ** 0) % totalNodes
-			xsucesor=sucesor_finger[key_sucesor]["rangollave"]["x"]
-			ysucesor=sucesor_finger[key_sucesor]["rangollave"]["y"]
-			sucesor={"id": sucesor_finger[key_sucesor]["id"], "ip": sucesor_finger[key_sucesor]["ip"], "puerto": sucesor_finger[key_sucesor]["puerto"]}
-			solicitud = {"op": "Eliminar_nodo" , "id": sucesor_finger[key_sucesor]["id"],"rxi":nuevo.getKeyValues()[0], "ryi": ysucesor, "ip": sucesor_finger[key_sucesor]["ip"], "puerto":sucesor_finger[key_sucesor]["puerto"],"start":nuevo.getKeyValues()[0],"stop":True}
-			address = "tcp://"+sucesor["ip"]+":"+sucesor["puerto"]
-			socket_cliente.connect(address)
-			socket_cliente.send_json(solicitud)
-			socket_cliente.recv_string()
-			print("Pasando los archivos...")
-			archivos = nuevo.getHashT()
-
-			solicitud_partes = {"op": "pasandote_partes","partes":archivos}
-			socket_cliente.send_json(solicitud_partes)
-			responde = socket_cliente.recv_string()
-
-			if(responde == "mandame_partes"):
-				print("Partes a enviar son: ")
-				print(archivos)
-				for llave in archivos:
-					with open(archivos[llave], "rb+") as entrada:
-						print("Enviando info parte..."+str(llave))
-						info = entrada.read()
-						socket_cliente.send(info)
-						socket_cliente.recv_string()
-						entrada.close()
-
-			socket_cliente.disconnect(address)
-			print("Termine")
-			conectado=False
-			break
-			sys.exit()
-
-		if(op==2):
-			filename = input("Digite el nombre del archivo: ")
-			extension =  input("Digite la extension del archivo: ")
+			filename = input("Filename: ")
+			extension =  "." + input("Extension del archivo sin el . ")
 
 			resultados = open(filename+".txt","ab+")
 
@@ -489,10 +454,10 @@ def main():
 				data = entrada.read()
 				tam = entrada.tell()
 				lim=tam/(1024*1024)
-				print("Tamaño: "+ str(tam))
+				print("Size>> "+ str(tam))
 				parts=int(lim+1)
 				i=0
-				print ("Partes: "+ str(parts))
+				print ("# >>: "+ str(parts))
 				entrada.seek(0)
 				archivos_nuevos = nuevo.getHashT()
 				while i<=lim:
@@ -500,7 +465,7 @@ def main():
 					key = random.randrange(0,totalNodes-1)
 					to_write = str(key)+"-"+filename+str(i+1)+extension+"\n"
 					resultados.write(to_write.encode('utf-8'))
-					print("Parte en el ID: "+str(key))					
+					print("ID generado para la parte>> "+str(key))					
 
 					if(Check(key,nuevo.getKeyValues()[0],nuevo.getKeyValues()[1])):
 						archivos_nuevos[key] = filename+str(i+1)+extension
@@ -537,41 +502,7 @@ def main():
 			print("Partes enviadas")
 
 
-		if(op==3):
-			filename = input("Digite el nombre del archivo: ")
-			extension =  input("Digite la extension del archivo: ")
-			resultado = open(filename+".mp3","ab+")
-			archivo = open(filename+".txt")
-			lineas = archivo.readlines()
-			for linea in lineas:
-				datos = linea.split("-")
-				llave = datos[0]
-				otros = datos[1].split("\n")
-				parte = otros[0]
-
-				if(Check(int(llave),nuevo.getKeyValues()[0],nuevo.getKeyValues()[1])):
-					data_parte = open(parte,"rb")
-					info_parte = data_parte.read()
-					resultado.write(info_parte)
-
-				else:
-					data={"op": "solicito_parte", "llave": llave, "parte": parte}
-					recibido = False
-
-					while not recibido:									
-						socket_cliente.send_json(data) 
-						msj=socket_cliente.recv_json()
-						if(msj["op"] == "recibela"):
-							socket_cliente.send_string("Damela")
-							info_parte = socket_cliente.recv()
-							resultado.write(info_parte)
-							recibido = True
-							print("Recibido con exito")
-
-						elif(msj["op"] == "siguiente"):
-							socket_cliente.disconnect(address)
-							address = nextNode(messaje)
-							socket_cliente.connect(address)	
+		
 
 
 main()
