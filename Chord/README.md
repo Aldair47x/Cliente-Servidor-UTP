@@ -8,32 +8,28 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Anaconda python 3.6
-pyzmq
+Anaconda python 3.6</br>
 
-
-```
-Give examples
-```
+pyzmq</br>
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+Say what the step will be <br>
+
+<h3>For the first node</h3>
 
 ```
-Give the example
-```
-For the first node
-
 python chord.py [ip address] [port]
 
-For the second node or more
+```
+<h3>For the second node or more</h3>
 
+```
 python chord.py [ip address] [port] [ip address that know previously] [port of the ip address]
 
-
+```
 
 ## Built With
 
